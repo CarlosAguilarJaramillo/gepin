@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+     <ul class="nav navbar-nav">
+        <li>
+            <p:link outcome="/index" onclick="clearBreadCrumbs();" rendered="#{externalContext.isUserInRole('ROLE_ADMIN_GRAL')}">
+                <i class="fa fa-home" ></i>
+                <span>Inicio</span>
+            </p:link>
+            
+        </li>
+        <li class="dropdown">
+          
+            
+            
+            <li class="dropdown" >
+                <h:panelGroup rendered="#{externalContext.isUserInRole('ROLE_ADMIN_GRAL')}">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+                <i class="fa fa-th-list"></i>
+                <span>Catálogos</span>
+                <span class="caret">
+                    
+                </span>
+            </a>
+                </h:panelGroup>
+                
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <p:link outcome="/catalogos/usuarios" rendered="#{externalContext.isUserInRole('ROLE_ADMIN_GRAL') }">
+                        <i class="fa fa-user" ></i>
+                        <span>Usuarios</span>
+                    </p:link>
+                </li>
+                
+                
+
+                
+                  
+                
+
+            </ul>
+        </li>
+        
+
+
+
+        
+        
+        
+        
+            
+            
+            
+            
+        </li>
+         
+                 
+    </ul>
+    
+</ui:composition>

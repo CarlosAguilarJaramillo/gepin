@@ -1,0 +1,26 @@
+{
+    "short_name": "gepin",
+    "name": "Sistema de Gestión de Proyectos de Investigación",
+    "icons": [
+        {
+            "src": "/resources/favicon/logo196x89.png",
+            "sizes": "196x196",
+            "type": "image/png"
+        },
+        {
+            "src": "/resources/favicon/logo144x66.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
+        {
+            "src": "/resources/favicon/logo96x96.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#3c8dbc",
+    "background_color": "#ffffff",
+    "scope": "/gepin/",
+    "start_url": "/gepin/index.do",
+    "display": "standalone"
+}

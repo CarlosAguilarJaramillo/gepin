@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="#{layoutMB.template}"
+                >
+
+    <ui:define name="metadata">
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+
+            .ui-button-text-only .ui-button-text {
+                padding: 0.3em 0.4em;
+            }
+
+            .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+                visibility: hidden;
+            }
+
+            .ui-filter-column .ui-column-customfilter .custom-filter {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .year-spinner input {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+
+
+            /* below css hides growls in small screens and makes messages visible */
+
+
+            @media only screen and (min-width: 880px) {
+                #botonslip {
+                    display: none;
+                }
+            }
+
+            @media only screen and (max-width: 880px) {
+
+                #botons {
+                    display: none;
+                }
+            }
+
+
+
+
+        </style>
+        <ui:param name="renderFormAsterisks" value="true"/>
+
+    </ui:define>
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="body">
+
+        <adm:breadcrumb title="Centro de Investigación" />
+        <h:form id="growls">
+            <b:growl id="growlMsg" globalOnly="true" placementFrom="top" placement-align="center"
+                     show-detail="true" show-summary="false" allowDismiss="true" animation-enter="animated bounceInDown" animation-exit="animated bounceOutDown"
+                     delay="7000" escape="true" />
+        </h:form>
+        <h:form id="formCentros">
+            <p:panel class="box box-primary" header="Centros de Investigación" toggleable="false" closable="false">
+                <b:container fluid="true">
+                    <div id="botons">
+                        <b:row>
+                            <b:column tinyScreen="12" mediumScreen="12" largeScreen="12" smallScreen="12">
+                                <p:commandButton icon="fa fa-plus" id="nuevoUsuario"
+                                                 value="Nuevo" styleClass="btn-primary" action="registroCentroInvestigacion?faces-redirect=true"/>
+                                <p:spacer width="5"/>
+
+
+
+
+                            </b:column>
+                        </b:row>
+                    </div>
+                    <!-- -->
+                    <div id="botonslip">
+                        <b:row>
+
+                            <p:splitButton id = "basic" value = "Nuevo"  update = "messages"  icon="fa fa-plus" styleClass="btn-primary" action="registroUsuarios?faces-redirect=true">
+
+
+
+
+                            </p:splitButton>
+                            <br/>
+                        </b:row>
+                    </div>
+                    <!-- -->
+                    <br/>
+                    <b:row>
+                        <b:column largeScreen="12" mediumScreen="12" smallScreen="12" tinyScreen="12">
+                            <p:dataTable  value="#{centroInvestigacionMB.listaCentrosInvestigacion}" widgetVar="tablaCentrosInvestigacion" var="centro" reflow="true" id="tablaCentros"
+                                          emptyMessage="No hay centros de investigacion registrados" paginator="true" rows="20" selection="#{centroInvestigacionMB.selectedCentrosInvestigacion}" 
+                                          initMode="load" selectionPageOnly="false"
+                                          rowKey="#{centro.idCentroInvestigacion}">
+
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Buscar:"/>
+                                        <p:inputText id="globalFilter" onkeyup="PF('tablaCentrosInvestigacion').filter()" style="width:170px" placeholder="Ingresa palabra clave" />
+                                    </p:outputPanel>
+                                </f:facet>
+
+
+
+                                <p:column width="150" filterBy="#{centro.idCentroInvestigacion}" headerText="Email" filterMatchMode="contains">
+                                    <h:outputText value="#{centro.idCentroInvestigacion}" />
+                                </p:column>
+                                <p:column width="100" filterBy="#{centro.nombreCentroInvestigacion}" headerText="Nombre"  filterMatchMode="contains">
+                                    <h:outputText value="#{centro.nombreCentroInvestigacion}" />
+                                </p:column>
+                                <p:column width="150" filterBy="#{centro.nombreDirector}" headerText="Directos"  filterMatchMode="contains">
+                                    <h:outputText value="#{centro.nombreDirector}" />
+                                </p:column>
+
+                                <p:column width="100" headerText="Opciones" style="text-align: center;">
+
+                                    <p:splitButton id = "options" value = "Editar"  update = "messages"  icon="fa fa-plus" styleClass="btn-primary" action="#{centroInvestigacionMB.editOutcome()}">
+
+
+
+                                        <p:menuitem value = "Eliminar" 
+                                                    actionListener="#{centroInvestigacionMB.eliminaCentrosInvestigacion(centro)}" 
+
+                                                    process="@this" update="formCentros:tablaCentros :growls"
+
+                                                    icon="pi pi-times" >
+                                            <p:confirm header="Confirmation" message="¿Estás seguro?" icon="ui-icon-danger"/>
+                                            <f:param name="idCentroInvestigacion" value="#{centro.idCentroInvestigacion}"/>   
+                                        </p:menuitem>
+
+                                        <p:menuitem value = "Ver detalle" 
+                                                    actionListener="#{centroInvestigacionMB.verCentroInvestigacionSeleccionado(centro)}" 
+
+                                                    process="@this" update="formCentros:centroInvestigacionInfo :growls"
+
+                                                    icon="pi pi-search" >
+                                            
+                                            <f:param name="idCentroInvestigacion" value="#{centro.idCentroInvestigacion}"/>   
+                                        </p:menuitem>
+
+
+                                        <f:param name="idCentroInvestigacion" value="#{centro.idCentroInvestigacion}"/>   
+                                    </p:splitButton>
+                                </p:column>
+
+                            </p:dataTable>
+                        </b:column>
+                    </b:row>
+                </b:container>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Si" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+
+
+            <p:dialog minWidth="150" styleClass="box-info box-solid" blockScroll="true" responsive="true" header="Información del Centro de Investigación" id="centroInvestigacionInfo" closeOnEscape="true"  visible="${centroInvestigacionMB.rendered}" widgetVar="centroInfo" modal="true" showEffect="fade" hideEffect="fade" resizable="false" appendTo="@(body)">
+
+                <b:container fluid="true">
+                    <b:row>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel style="font-weight: bold;" value="ID del Centro de Investigación:"></p:outputLabel>
+                            <p:outputLabel value="#{centroInvestigacionMB.centroInvestigacionInfo.idCentroInvestigacion}"></p:outputLabel>
+
+                            <p:outputLabel style="font-weight: bold;" value="Nombre:"></p:outputLabel>
+                            <p:outputLabel value="#{centroInvestigacionMB.centroInvestigacionInfo.nombreCentroInvestigacion}"></p:outputLabel>
+
+                            <p:outputLabel style="font-weight: bold;" value="Director:"></p:outputLabel>
+                            <p:outputLabel value="#{centroInvestigacionMB.centroInvestigacionInfo.nombreDirector}"></p:outputLabel>                            
+
+                            <p:outputLabel style="font-weight: bold;" value="Teléfono:"></p:outputLabel>
+                            <p:outputLabel value="#{centroInvestigacionMB.centroInvestigacionInfo.telefono}"></p:outputLabel>   
+
+
+                        </p:panelGrid>
+                    </b:row>
+                </b:container>
+                <f:facet name="footer">
+                    <p:outputPanel style="float: right">
+                        <p:commandButton icon="fa fa-edit" id="editarUsuario"
+                                         value="Editar" styleClass="btn-primary" action="#{centroInvestigacionMB.editCentroInvestigacion()}">
+                            <f:param name="idCentroInvestigacion" value="#{centroInvestigacionMB.centroInvestigacionInfo.idCentroInvestigacion}"/>
+
+                        </p:commandButton>
+
+
+
+
+
+                    </p:outputPanel>
+                </f:facet>
+            </p:dialog>
+
+
+
+
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

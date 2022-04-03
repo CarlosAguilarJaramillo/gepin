@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="#{layoutMB.template}"
+                >
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="idUsuario" value="#{registroUsuarioMB.idUsuario}" />
+
+            <f:event type="preRenderView" listener="#{registroUsuarioMB.postLoad()}"/>
+        </f:metadata>
+
+    </ui:define>
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="body">
+        <style>
+            /* The message box is shown when the user clicks on the password field */
+
+
+            #message p {
+                padding: 10px 20px;
+                font-size: 18px;
+            }
+
+            /* Add a green text color and a checkmark when the requirements are right */
+            .valid {
+                color: green;
+                font-size: small;
+            }
+
+            .valid:before {
+                position: relative;
+                left: -15px;
+                content: "✔";
+            }
+
+            /* Add a red text color and an "x" when the requirements are wrong */
+            .invalid {
+                color: red;
+                font-size: small;
+            }
+
+            .invalid:before {
+                position: relative;
+                left: -15px;
+                content: "✖";
+            }
+        </style>
+        <script>
+
+
+
+            function onBlurPassword() {
+                document.getElementById("message").style.display = "none";
+            }
+
+            function onFocusPassword() {
+                document.getElementById("message").style.display = "block";
+            }
+
+
+            function validaPassword() {
+                var myInput = document.getElementById("formUser:password");
+
+                var letter = document.getElementById("letter");
+
+                var capital = document.getElementById("capital");
+                var number = document.getElementById("number");
+                var length = document.getElementById("length");
+
+
+                var lowerCaseLetters = /[a-z]/g;
+                if (myInput.value.match(lowerCaseLetters)) {
+                    letter.classList.remove("invalid");
+                    letter.classList.add("valid");
+                } else {
+                    letter.classList.remove("valid");
+                    letter.classList.add("invalid");
+                }
+
+                // Validate capital letters
+                var upperCaseLetters = /[A-Z]/g;
+                if (myInput.value.match(upperCaseLetters)) {
+                    capital.classList.remove("invalid");
+                    capital.classList.add("valid");
+                } else {
+                    capital.classList.remove("valid");
+                    capital.classList.add("invalid");
+
+                }
+
+                // Validate numbers
+                var numbers = /[0-9]/g;
+                if (myInput.value.match(numbers)) {
+                    number.classList.remove("invalid");
+                    number.classList.add("valid");
+                } else {
+                    number.classList.remove("valid");
+                    number.classList.add("invalid");
+                }
+
+                // Validate length
+                if (myInput.value.length >= 8) {
+                    length.classList.remove("invalid");
+                    length.classList.add("valid");
+                } else {
+                    length.classList.remove("valid");
+                    length.classList.add("invalid");
+                }
+            }
+
+
+        </script>
+        <adm:breadcrumb title="#{empty registroUsuarioMB.idUsuario ? 'Nuevo Usuario' : 'Usuario '.concat(registroUsuarioMB.idUsuario)}" link="/registroUsuarios.do?idUsuario=#{registroUsuarioMB.idUsuario}"/>
+
+        <h:form id="formUser">
+
+<b:growl id="growlMsg" globalOnly="true" placementFrom="top" placement-align="center"
+                     show-detail="true" show-summary="false" allowDismiss="true" animation-enter="animated bounceInDown" animation-exit="animated bounceOutDown"
+                     delay="7000" escape="true" />
+
+            <div class="ui-g ui-fluid">
+                <p:panel class="box box-primary" header="Nuevo usuario" toggleable="false" closable="false">
+
+                    <b:container fluid="true">
+                        <b:row>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton icon="fa fa-save" id="nuevoUsuario" rendered="#{registroUsuarioMB.isNew()}" action="#{registroUsuarioMB.guardarUsuario}"
+                                                 value="Guardar" styleClass="btn-primary" update="@form"/>
+                                <p:commandButton icon="fa fa-save" id="actualizaUsuario" rendered="#{not registroUsuarioMB.isNew()}" action="#{registroUsuarioMB.actualizarUsuario()}"
+                                                 value="Actualizar" styleClass="btn-primary" update="@form"/>
+                                <p:spacer width="5"/>
+                                
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton value="Borrar" process="@this" rendered="#{registroUsuarioMB.isNew()}"
+                                                 icon="fa fa-refresh" styleClass="btn-success"
+                                                 update="@form"  resetValues="true"/>
+                                <p:commandButton value="Eliminar" action="#{registroUsuarioMB.remove}" rendered="#{not registroUsuarioMB.isNew()}"
+                                                 icon="fa fa-trash" styleClass="btn-danger"
+                                                 update="@form" process="@this">
+                                    <p:confirm header="Confirmación" message="¿Estás seguro?" icon="ui-icon-danger"/>
+                                </p:commandButton>
+                                <p:spacer width="5"/>
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton value="Regresar" immediate="true"
+                                                 action="usuarios?faces-redirect=true"
+                                                 process="@this"
+                                                 icon="fa fa-reply"/>
+                            </b:column>
+                        </b:row>
+                        <br/>
+                        <b:row>
+                            <b:column largeScreen="12" mediumScreen="12" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="idUsuario"  value="#{registroUsuarioMB.usuario.idUsuario}" disabled="true" maxlength="50" size="50"/>
+                                    <p:outputLabel for="idUsuario" value="ID Usuario"></p:outputLabel>
+                                    <p:message for="idUsuario"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                        </b:row>
+
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="nombre" required="true" maxlength="50" requiredMessage="Campo requerido" placeholder="Ingresa el nombre" value="#{registroUsuarioMB.usuario.nombre}" />
+                                    <p:outputLabel for="nombre" value="Nombre"/>
+                                    <p:message for="nombre"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="apellidoPaterno" required="true" maxlength="50" requiredMessage="Campo requerido" placeholder="Ingresa el Apellido Paterno" value="#{registroUsuarioMB.usuario.apellidoPaterno}"/>
+                                    <p:outputLabel for="apellidoPaterno" value="Apellido Paterno"/>
+                                    <p:message for="apellidoPaterno"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="apellidoMaterno" required="true" maxlength="50" requiredMessage="Campo requerido" placeholder="Ingresa el Apellido Materno" value="#{registroUsuarioMB.usuario.apellidoMaterno}"/>
+                                    <p:outputLabel for="apellidoMaterno" value="Apellido Materno"/>
+                                    <p:message for="apellidoMaterno"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                        </b:row>
+
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="email" required="true" maxlength="150" type="email" validator="Emailvalidator"  requiredMessage="Campo requerido" placeholder="Ingresa el email" value="#{registroUsuarioMB.email}"/>
+                                    <p:outputLabel for="email" value="Email"/>
+                                    <p:message for="email"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                                
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:selectOneMenu id="idPerfil" required="true" requiredMessage="Campo requerido" filter="true" filterMatchMode="startsWith" value="#{registroUsuarioMB.idPerfil}">
+                                        <f:selectItem itemLabel="Selecciona una opción" noSelectionOption="true"/>
+                                        <f:selectItems value="#{registroUsuarioMB.itemsPerfil}"/>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel for="idPerfil" value="Perfil"/>
+                                    <p:message for="idPerfil"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:selectOneMenu id="idEstatus" required="true" requiredMessage="Campo requerido" value="#{registroUsuarioMB.idEstatus}">
+                                        <f:selectItem itemLabel="Selecciona una opción" noSelectionOption="true"/>
+                                        <f:selectItems value="#{registroUsuarioMB.itemsEstatusUsuarios}"/>
+
+                                    </p:selectOneMenu>
+                                    <p:outputLabel for="idEstatus" value="Estatus"/>
+                                    <p:message for="idEstatus"/>
+                                      <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                        </b:row>
+                        
+                        
+                        
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                <p:outputLabel for="selectChangePass" rendered="#{not registroUsuarioMB.isNew()}" value="Quiero cambiar la contraseña" /><br/>
+                                <p:toggleSwitch id="selectChangePass" value="#{registroUsuarioMB.req}" rendered="#{not registroUsuarioMB.isNew()}" label="Deseo cambiar la contraseña" >
+                                    <p:ajax update="@form" />
+                                </p:toggleSwitch>
+                                
+                                </div>
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    
+                                    <p:password id="password"  onkeyup="validaPassword();" validator="PasswordValidator" rendered="#{registroUsuarioMB.req}" redisplay="true"  onfocus="onFocusPassword();" onblur="onBlurPassword();" required="true" match="password2" promptLabel="Por favor ingresa el password" strongLabel="Password bueno" goodLabel="Password con poca seguridad" weakLabel="Password inseguro"  requiredMessage="Campo requerido" placeholder="Ingresa el password" value="#{registroUsuarioMB.usuario.password}">
+                                        
+
+                                    </p:password>
+                                    <p:outputLabel for="password" value="Password" rendered="#{registroUsuarioMB.req}" />
+                                    <p:message id="msgPassword" for="password" rendered="#{registroUsuarioMB.req}" />
+                                    <p:spacer width="5"/>
+                                    
+                                </div>
+                                <div id="message" style="display: none" >
+                                    <h4>La contraseña debe tener:</h4>
+
+                                    <p id="letter" style="font-size: medium;" class="invalid">Mínimo 1 (una) letra <b>minúscula</b></p>
+                                    <p id="capital" style="font-size: medium;" class="invalid">Minimo 1 (una) letra <b>mayúscula</b></p>
+                                    <p id="number" style="font-size: medium;" class="invalid">Al menos un <b>número</b></p>
+                                    <p id="length" style="font-size: medium;" class="invalid">Mínimo <b>8 caracteres</b></p>
+                                </div>
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:password id="password2" required="true" validator="PasswordValidator" label="Confirma el password" lang="es_MX" rendered="#{registroUsuarioMB.req}" redisplay="true"  requiredMessage="Campo requerido" placeholder="Ingresa el password" />
+                                    <p:outputLabel for="password2" value="Confirma el Password"  rendered="#{registroUsuarioMB.req}"/>
+                                    <p:message for="password2" rendered="#{registroUsuarioMB.req}"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                        </b:row>
+                        <p:spacer width="5"/>
+                        
+                    </b:container>
+
+                </p:panel>
+
+            </div>
+
+
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Si" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+
+        </h:form>
+
+        <adm:ripple />
+        <h:outputScript library="js" name="admintemplate.js" target="head"/>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
+  <s:exception>OCA\DAV\Connector\Sabre\Exception\FileLocked</s:exception>
+  <s:message>"NetBeansProjects/siicativ2.0/src/main/webapp/resources" is locked</s:message>
+</d:error>
+8 256 8zm0 168c-44.183 0-80 35.817-80 80s35.817 80 80 80 80-35.817 80-80-35.817-80-80-80z"/></svg>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="#{layoutMB.template}"
+                >
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="idCentroInvestigacion" value="#{registroCentroInvestigacionMB.idCentroInvestigacion}" />
+
+            <f:event type="preRenderView" listener="#{registroCentroInvestigacionMB.postLoad()}"/>
+        </f:metadata>
+
+    </ui:define>
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="body">
+
+
+        <adm:breadcrumb title="#{empty registroCentroInvestigacionMB.idCentroInvestigacion ? 'Nuevo' : 'Centro de Inv. '.concat(registroCentroInvestigacionMB.idCentroInvestigacion)}" link="/registroCentroInvestigacion.do?idCentroInvestigacion=#{registroCentroInvestigacionMB.idCentroInvestigacion}"/>
+
+        <h:form id="formCentro">
+
+            <b:growl id="growlMsg" globalOnly="true" placementFrom="top" placement-align="center"
+                     show-detail="true" show-summary="false" allowDismiss="true" animation-enter="animated bounceInDown" animation-exit="animated bounceOutDown"
+                     delay="7000" escape="true" />
+
+            <div class="ui-g ui-fluid">
+                <p:panel class="box box-primary" header="Centro de Investigación" toggleable="false" closable="false">
+
+                    <b:container fluid="true">
+                        <b:row>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton icon="fa fa-save" id="nuevoCentro" rendered="#{registroCentroInvestigacionMB.isNew()}" action="#{registroCentroInvestigacionMB.guardarCentroInvestigacion()}"
+                                                 value="Guardar" styleClass="btn-primary" update="@form"/>
+                                <p:commandButton icon="fa fa-save" id="actualizaCentro" rendered="#{not registroCentroInvestigacionMB.isNew()}" action="#{registroCentroInvestigacionMB.actualizaCentroInvestigacion()}"
+                                                 value="Actualizar" styleClass="btn-primary" update="@form"/>
+                                <p:spacer width="5"/>
+
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton value="Borrar" process="@this" rendered="#{registroCentroInvestigacionMB.isNew()}"
+                                                 icon="fa fa-refresh" styleClass="btn-success"
+                                                 update="@form"  resetValues="true"/>
+                                <p:commandButton value="Eliminar" action="#{registroCentroInvestigacionMB.remove}" rendered="#{not registroCentroInvestigacionMB.isNew()}"
+                                                 icon="fa fa-trash" styleClass="btn-danger"
+                                                 update="@form" process="@this">
+                                    <p:confirm header="Confirmación" message="¿Estás seguro?" icon="ui-icon-danger"/>
+                                </p:commandButton>
+                                <p:spacer width="5"/>
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton value="Regresar" immediate="true"
+                                                 action="centroInvestigacion?faces-redirect=true"
+                                                 process="@this"
+                                                 icon="fa fa-reply"/>
+                            </b:column>
+                        </b:row>
+                        <br/>
+                        <b:row>
+                            <b:column largeScreen="12" mediumScreen="12" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="idCentroInvestigacion"  value="#{registroCentroInvestigacionMB.centroInvestigacion.idCentroInvestigacion}" disabled="true" maxlength="50" size="50"/>
+                                    <p:outputLabel for="idCentroInvestigacion" value="ID Centro Investigación"></p:outputLabel>
+                                    <p:message for="idCentroInvestigacion"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                        </b:row>
+
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="nombre" required="true" maxlength="120" requiredMessage="Campo requerido" placeholder="Ingresa el nombre del Centro de Investigación" value="#{registroCentroInvestigacionMB.centroInvestigacion.nombreCentroInvestigacion}" />
+                                    <p:outputLabel for="nombre" value="Nombre"/>
+                                    <p:message for="nombre"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="director" required="true" maxlength="100" requiredMessage="Campo requerido" placeholder="Ingresa el Nombre del Director" value="#{registroCentroInvestigacionMB.centroInvestigacion.nombreDirector}"/>
+                                    <p:outputLabel for="director" value="Nombre del director"/>
+                                    <p:message for="director"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputMask id="telefono" required="true" maxlength="15" requiredMessage="Campo requerido" placeholder="Ingresa el teléfono" mask="(999) 999-9999" validateMask="true" value="#{registroCentroInvestigacionMB.centroInvestigacion.telefono}"/>
+                                    <p:outputLabel for="telefono" value="Telefono"/>
+                                    <p:message for="telefono"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                        </b:row>
+
+                        
+                        
+                        <p:spacer width="5"/>
+
+                    </b:container>
+
+                </p:panel>
+
+            </div>
+
+
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Si" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+
+        </h:form>
+
+        <adm:ripple />
+        <h:outputScript library="js" name="admintemplate.js" target="head"/>
+    </ui:define>
+
+</ui:composition>

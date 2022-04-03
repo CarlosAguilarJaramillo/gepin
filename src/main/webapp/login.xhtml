@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:adm="http://github.com/adminfaces"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <title>Sistema de Gestión de Proyectos de Investigación</title>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon/favicon.ico']}"/>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon/logo16x16.png']}" sizes="16x16"/>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon/logo32x32.png']}" sizes="32x32"/>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon/logo96x96.png']}" sizes="96x96"/>
+        <link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon/logo144x66.png']}" sizes="144x66"/>
+        
+        <meta name="theme-color" content="#444"/>
+        <meta name="mobile-web-app-capable" content="yes"/>
+
+        <style type="text/css">
+
+            /* below css hides growls in small screens and makes messages visible */
+            @media (max-width: 768px) {
+
+                body div.ui-growl {
+                    display: none;
+                }
+
+                body div.ui-messages {
+                    display: block;
+                }
+
+            }
+
+            /* below css hides messages in medium/big devices and makes growl visible in such devices */
+            @media (min-width: 769px) {
+                body div.ui-growl {
+                    display: block;
+                }
+
+                body div.ui-messages {
+                    display: none;
+                }
+            }
+
+            body.login-page {
+                background-color: transparent;
+            }
+
+            html {
+                background: url(#{resource[ 'images:backLogin.jpg' ]}) no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+            }
+
+            @media (max-width: 768px) {
+                html {
+                    background-image: url(#{resource[ 'images:backLogin.jpg' ]});
+                }
+            }
+        </style>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $("#flip_content").click(function () {
+
+                    $("#f1_card").css("transform", "rotateY(360deg)");
+                    $("#front").css("display", "none");
+                    $("#back").css("display", "block");
+                    $("#flip_content").css("display", "none");
+                    $("#flip_contentReset").css("display", "block");
+
+
+                });
+
+                $("#flip_contentReset").click(function () {
+
+                    $("#f1_card").css("transform", "rotateY(0deg)");
+                    $("#front").css("display", "block");
+                    $("#back").css("display", "none");
+                    $("#flip_content").css("display", "block");
+                    $("#flip_contentReset").css("display", "none");
+
+
+                });
+                              
+            });
+            
+           
+
+        </script>
+
+        <style type="text/css">
+
+            #flip_content {
+                background:none!important;
+                border:none; 
+                padding:0!important;
+
+                /*optional*/
+                font-family:arial,sans-serif; /*input has OS specific font-family*/
+                color:#069;
+
+                cursor:pointer;
+            }
+
+            #flip_contentReset {
+                background:none!important;
+                border:none; 
+                padding:0!important;
+
+                /*optional*/
+                font-family:arial,sans-serif; /*input has OS specific font-family*/
+                color:#069;
+
+                cursor:pointer;
+                display: none;
+            }
+            #f1_container {
+                position: relative;
+                margin: 10px auto;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+            }
+            #f1_container {
+                perspective: 1000;
+            }
+            #f1_card {
+                width: 100%;
+                height: 100%;
+                transform-style: preserve-3d;
+                transition: all 1.0s linear;
+            }
+
+
+
+            .face {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                backface-visibility: hidden;
+            }
+            .face.back {
+                display: none;
+                transform: rotateX(180deg);
+                box-sizing: border-box;
+                padding: 10px;
+                color: white;
+                text-align: center;
+                background-color: #aaa;
+                backface-visibility: hidden;
+            }
+            #back {
+                display: none;
+
+            }
+            
+           
+        </style>
+    </h:head>
+
+    <h:body styleClass="hold-transition login-page" >
+
+        <h:outputScript target="head" >
+            $(document).ready(function () {
+            setTimeout(function () {
+            $('#form\\:email').focus();
+            }, 250);
+            });
+
+            $(document).on("pfAjaxComplete", function () {
+            setTimeout(function () {
+            $('#form\\:email').focus();
+            }, 250);
+            });
+        </h:outputScript>
+        
+        
+        <p:growl sticky="true">
+            <p:autoUpdate/>
+        </p:growl>
+
+        <div id="loader" class="load-bar" style="display: none">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+        <p:dialog id="adminStatusDialog" modal="true" widgetVar="statusDialog" draggable="false" closable="false"
+                  resizable="false" responsive="true" showHeader="false" appendTo="@(body)">
+            <p:graphicImage library="images" name="#{adminConfig.loadingImage}"/>
+        </p:dialog>
+
+
+        
+      
+        
+        <div class="login-box">
+            <div class="login-logo">
+                <b>GEPIN</b> <small style="font-size: medium;">v0.0.1</small>
+            </div>
+            <!-- /.login-logo -->
+            <div class="box login-box-body" >
+
+
+
+                <div class="ui-fluid" >
+                    <div id="f1_card" >
+                        <div id="front" class="front face">
+                            <h:form id="form">
+                                
+                                
+                                
+
+
+                                <p:messages closable="true"/>
+
+                                <p:spacer width="10"/>
+                                <div class="ui-material icon-right intro" data-step="2" data-intro="Ingresa tu email">
+                                    <p:inputText value="#{logonMB.usuario.idUsuario}"  id='email' style="width:100%; " type="email"  placeholder="Ingresa tu email"
+                                                 required="true"
+                                                 requiredMessage="Email es requerido.">
+
+                                        <i class="fa fa-2x fa-envelope" ></i>
+
+                                    </p:inputText>
+
+                                    <p:outputLabel for="email" value="Email"/>
+                                    <p:spacer width="10"/>
+                                </div>
+
+
+
+                                <div class="ui-material icon-right intro" data-step="3" data-intro="Ingresa tu contraseña">
+
+
+                                    <p:password value="#{logonMB.usuario.password}" id="password" 
+                                                 placeholder="Ingresa tu password" required="true"
+                                                 requiredMessage="Password es requerido." >
+                                        <i class="fa fa-2x fa-lock"></i>
+                                    </p:password>
+                                    <p:outputLabel for="password" value="Password"/>
+                                    <p:spacer width="10"/>
+                                </div>
+
+                                <div class="row intro" >
+                              
+                                    <p:spacer height="10"/>
+                                    <div class="col-xs-12" data-step="5" data-intro="Da clic aquí para ingresar al Sistema">
+                                        <p:commandButton id="btnLogin" styleClass="btn btn-success btn-block" action="#{logonMB.login}" ajax="false" value="Iniciar Sesión" />
+
+                                    </div>
+                                </div>
+                            </h:form>
+                            
+                        </div>
+                        
+                        
+                    </div>
+
+                </div>
+
+                <br/>
+               
+
+            </div>
+            <!-- /.login-box-body -->
+
+        </div>
+        <adm:ripple />
+        <h:outputScript library="js" name="admintemplate.js" target="head"/>
+        
+    </h:body>
+</html>

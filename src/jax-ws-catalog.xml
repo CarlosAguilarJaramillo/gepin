@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://cursoscea.edomex.gob.mx/CursosCEAWS?WSDL" uri="wsdl/cursoscea.edomex.gob.mx/CursosCEAWS.wsdl"/>
+    <system systemId="http://cursoscea.edomex.gob.mx:80/CursosCEAWS?xsd=1" uri="wsdl/cursoscea.edomex.gob.mx_80/CursosCEAWS.xsd_1.xsd"/>
+    <system systemId="http://qasistemas2.edomex.gob.mx/ceroPapel/webService?wsdl" uri="wsdl/qasistemas2.edomex.gob.mx/ceroPapel/webService.wsdl"/>
+    <system systemId="http://qasistemas2.edomex.gob.mx:80/ceroPapel/webService?xsd=1" uri="wsdl/qasistemas2.edomex.gob.mx_80/ceroPapel/webService.xsd_1.xsd"/>
+    <system systemId="http://qasistemas2.edomex.gob.mx:80/ceroPapel/webService?xsd=2" uri="wsdl/qasistemas2.edomex.gob.mx_80/ceroPapel/webService.xsd_2.xsd"/>
+</catalog>

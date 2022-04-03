@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 31/03/2022 01:15:54 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+  <class name="me.carlosaguilar.gepin.model.CentroInvestigacion" optimistic-lock="version" schema="db_gepin" table="centro_investigacion">
+    <id name="idCentroInvestigacion" type="int">
+      <column name="id_centro_investigacion"/>
+      <generator class="identity"/>
+    </id>
+    <property name="nombreCentroInvestigacion" type="string">
+      <column length="120" name="nombre_centro_investigacion" not-null="true"/>
+    </property>
+    <property name="nombreDirector" type="string">
+      <column length="100" name="nombre_director"/>
+    </property>
+    <property name="telefono" type="string">
+      <column length="15" name="telefono"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="usuarios" table="usuario">
+      <key>
+        <column name="id_centro_investigacion" not-null="true"/>
+      </key>
+      <one-to-many class="me.carlosaguilar.gepin.model.Usuario"/>
+    </set>
+  </class>
+</hibernate-mapping>
