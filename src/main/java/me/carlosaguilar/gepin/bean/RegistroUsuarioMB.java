@@ -195,10 +195,6 @@ public class RegistroUsuarioMB implements Serializable {
 
             usuario.setIdEstatus(idEstatus);
 
-////                 CatEdayo catEdayo = new CatEdayo();
-////                 catEdayo=catEdayoService.getCatEdayoById(idEdayo);
-////               // catEdayo.setEdyEdayoId(idEdayo);
-////                usuario.setCatEdayo(catEdayo);
 ////                
             trimUsuario();
 
@@ -219,37 +215,30 @@ public class RegistroUsuarioMB implements Serializable {
         }
     }
 
-////    
-/////**
-//// * Método que elimina a un usuario o usuarios seleccionados
-//// * @throws IOException 
-//// */
-////    public void remove() throws IOException {
-////        if (has(usuario) && has(usuario.getUsrUsuarioId())) {
-////            try {
-////                usuarioService.deleteUser(usuario);
-////                addDetailMessage("El usuario " + usuario.getUsrUsuarioId()
-////                        + " se ha eliminado correctamente");
-////                externalContext.getFlash().setKeepMessages(true);
-////                bitacoraService.saveBitacora(new Bitacora( new Date(), Constantes.ELIMINAR, "Datos eliminados: "+ usuario, securityContext.getCallerPrincipal().getName()));
-////                externalContext.redirect("usuarios.do");
-////
-////            } catch (BusinessException ex) {
-////                addDetailMessage(ex.getLocalizedMessage(), FacesMessage.SEVERITY_ERROR);
-////            }
-////        }
-////    }
+
+    public void remove() throws IOException {
+        if (has(usuario) && has(usuario.getIdUsuario())) {
+            try {
+                usuarioService.deleteUser(usuario);
+                addDetailMessage("El usuario se ha eliminado correctamente");
+                externalContext.getFlash().setKeepMessages(true);
+               
+                externalContext.redirect("usuarios.do");
+
+            } catch (BusinessException ex) {
+                addDetailMessage(ex.getLocalizedMessage(), FacesMessage.SEVERITY_ERROR);
+            }
+        }
+    }
     public boolean isNew() {
 
         return usuario == null || usuario.getIdUsuario() == null || email == null;
     }
 
     public void trimUsuario() {
-        //quitamos los espacios al inicio y final de los atributos tipo String
+       
         String nombre = usuario.getNombre().toUpperCase().trim();
-        /*String apePaterno = usuario.getUsrApellidoPat().toUpperCase().trim();
-        String apeMaterno = usuario.getUsrApellidoMat().toUpperCase().trim();
-        String emailUser = usuario.getUsrUsuarioId().toUpperCase().trim();*/
+     
         usuario.setNombre(usuario.getNombre().toUpperCase().trim());
         usuario.setApellidoPaterno(usuario.getApellidoPaterno().toUpperCase().trim());
         usuario.setApellidoMaterno(usuario.getApellidoMaterno().toUpperCase().trim());
