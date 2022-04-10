@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 7/04/2022 05:04:39 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="me.carlosaguilar.gepin.model.RelProyectoLinea" table="rel_proyecto_linea" schema="db_gepin" optimistic-lock="version">
+        <composite-id name="id" class="me.carlosaguilar.gepin.model.RelProyectoLineaId">
+            <key-property name="idProyectoInvestigacion" type="java.lang.Integer">
+                <column name="id_proyecto_investigacion" />
+            </key-property>
+            <key-property name="idLineaInvestigacion" type="java.lang.Integer">
+                <column name="id_linea_investigacion" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="lineaInvestigacion" class="me.carlosaguilar.gepin.model.LineaInvestigacion" update="false" insert="false" fetch="select">
+            <column name="id_linea_investigacion" />
+        </many-to-one>
+        <many-to-one name="proyectosInvestigacion" class="me.carlosaguilar.gepin.model.ProyectosInvestigacion" update="false" insert="false" fetch="select">
+            <column name="id_proyecto_investigacion" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

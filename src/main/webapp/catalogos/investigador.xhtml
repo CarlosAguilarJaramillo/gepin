@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="#{layoutMB.template}"
+                >
+
+    <ui:define name="metadata">
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+
+            .ui-button-text-only .ui-button-text {
+                padding: 0.3em 0.4em;
+            }
+
+            .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+                visibility: hidden;
+            }
+
+            .ui-filter-column .ui-column-customfilter .custom-filter {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .year-spinner input {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+
+
+            /* below css hides growls in small screens and makes messages visible */
+
+
+            @media only screen and (min-width: 880px) {
+                #botonslip {
+                    display: none;
+                }
+            }
+
+            @media only screen and (max-width: 880px) {
+
+                #botons {
+                    display: none;
+                }
+            }
+
+
+
+
+        </style>
+        <ui:param name="renderFormAsterisks" value="true"/>
+
+    </ui:define>
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="body">
+
+        <adm:breadcrumb title="Investigador" />
+        <h:form id="growls">
+            <b:growl id="growlMsg" globalOnly="true" placementFrom="top" placement-align="center"
+                     show-detail="true" show-summary="false" allowDismiss="true" animation-enter="animated bounceInDown" animation-exit="animated bounceOutDown"
+                     delay="7000" escape="true" />
+        </h:form>
+        <h:form id="formGrupos">
+            <p:panel class="box box-primary" header="Investigador" toggleable="false" closable="false">
+                <b:container fluid="true">
+                    <div id="botons">
+                        <b:row>
+                            <b:column tinyScreen="12" mediumScreen="12" largeScreen="12" smallScreen="12">
+                                <p:commandButton icon="fa fa-plus" id="nuevoGrupo"
+                                                 value="Nuevo" styleClass="btn-primary" action="registroInvestigador?faces-redirect=true"/>
+                                <p:spacer width="5"/>
+
+
+
+
+                            </b:column>
+                        </b:row>
+                    </div>
+                    <!-- -->
+                    <div id="botonslip">
+                        <b:row>
+
+                            <p:splitButton id = "basic" value = "Nuevo"  update = "messages"  icon="fa fa-plus" styleClass="btn-primary" action="registroInvestigador?faces-redirect=true">
+
+
+
+
+                            </p:splitButton>
+                            <br/>
+                        </b:row>
+                    </div>
+                    <!-- -->
+                    <br/>
+                    <b:row>
+                        <b:column largeScreen="12" mediumScreen="12" smallScreen="12" tinyScreen="12">
+                            <p:dataTable  value="#{investigadorMB.listainvestigador}" widgetVar="tablaInv" var="inv" reflow="true" id="tablaInvestigador"
+                                          emptyMessage="No hay invesigadores registrados" paginator="true" rows="20" 
+                                          initMode="load" selectionPageOnly="false"
+                                          rowKey="#{inv.idInvestigador}">
+
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Buscar:"/>
+                                        <p:inputText id="globalFilter" onkeyup="PF('tablaInv').filter()" style="width:170px" placeholder="Ingresa palabra clave" />
+                                    </p:outputPanel>
+                                </f:facet>
+
+
+
+                                <p:column width="150" filterBy="#{inv.idInvestigador}" headerText="ID" filterMatchMode="contains">
+                                    <h:outputText value="#{inv.idInvestigador}" />
+                                </p:column>
+                                <p:column width="100" filterBy="#{inv.nombreInvestigador}" headerText="Nombre"  filterMatchMode="contains">
+                                    <h:outputText value="#{inv.nombreInvestigador}" />
+                                </p:column>
+                                <p:column width="100" filterBy="#{inv.apPaternoInvestigador}" headerText="Apellido Paterno"  filterMatchMode="contains">
+                                    <h:outputText value="#{inv.apPaternoInvestigador}" />
+                                </p:column>
+                                <p:column width="100" filterBy="#{inv.apMaternoInvestigador}" headerText="Apellido Materno"  filterMatchMode="contains">
+                                    <h:outputText value="#{inv.apMaternoInvestigador}" />
+                                </p:column>
+                                
+                                
+
+                                <p:column width="100" headerText="Opciones" style="text-align: center;">
+
+                                    <p:splitButton id = "options" value = "Editar"  update = "messages"  icon="fa fa-plus" styleClass="btn-primary" action="#{investigadorMB.editOutcome()}">
+
+
+
+                                        <p:menuitem value = "Eliminar" 
+                                                    actionListener="#{investigadorMB.eliminaInvestigador(inv)}" 
+
+                                                    process="@this" update="formGrupos:tablaInvestigador :growls"
+
+                                                    icon="pi pi-times" >
+                                            <p:confirm header="Atención" message="¿Está seguro de eliminar al investigador?" icon="ui-icon-danger"/>
+                                            <f:param name="idInvestigador" value="#{inv.idInvestigador}"/>   
+                                        </p:menuitem>
+
+                                        <p:menuitem value = "Ver detalle" 
+                                                    actionListener="#{investigadorMB.verInvestigadorSeleccionado(inv)}" 
+
+                                                    process="@this" update="formGrupos:investigadorInfo :growls"
+
+                                                    icon="pi pi-search" >
+                                            
+                                        </p:menuitem>
+
+
+                                        <f:param name="idInvestigador" value="#{inv.idInvestigador}"/>   
+                                    </p:splitButton>
+                                </p:column>
+
+                            </p:dataTable>
+                        </b:column>
+                    </b:row>
+                </b:container>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Si" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+
+
+            <p:dialog minWidth="150" styleClass="box-info box-solid" blockScroll="true" responsive="true" header="Información del investigador" id="investigadorInfo" closeOnEscape="true"  visible="${investigadorMB.rendered}" widgetVar="investigadorInfo" modal="true" showEffect="fade" hideEffect="fade" resizable="false" appendTo="@(body)">
+
+                <b:container fluid="true">
+                    <b:row>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel style="font-weight: bold;" value="ID del investigador"></p:outputLabel>
+                            <p:outputLabel value="#{investigadorMB.investigadorInfo.idInvestigador}"></p:outputLabel>
+
+                            <p:outputLabel style="font-weight: bold;" value="Nombre:"></p:outputLabel>
+                            <p:outputLabel value="#{investigadorMB.investigadorInfo.nombreInvestigador}"></p:outputLabel>
+                            
+                            <p:outputLabel style="font-weight: bold;" value="Apellido Paterno: "></p:outputLabel>
+                            <p:outputLabel value="#{investigadorMB.investigadorInfo.apPaternoInvestigador}"></p:outputLabel>
+                            
+                              <p:outputLabel style="font-weight: bold;" value="Apellido Materno "></p:outputLabel>
+                              <p:outputLabel value="#{investigadorMB.investigadorInfo.apMaternoInvestigador}"></p:outputLabel>
+
+                           
+
+                        </p:panelGrid>
+                    </b:row>
+                </b:container>
+                <f:facet name="footer">
+                    <p:outputPanel style="float: right">
+                        <p:commandButton icon="fa fa-edit" id="editarUsuario"
+                                         value="Editar" styleClass="btn-primary" action="#{investigadorMB.editInvestigador()}">
+                            <f:param name="idInvestigador" value="#{investigadorMB.investigadorInfo.idInvestigador}"/>
+
+                        </p:commandButton>
+
+
+
+
+
+                    </p:outputPanel>
+                </f:facet>
+            </p:dialog>
+
+
+
+
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

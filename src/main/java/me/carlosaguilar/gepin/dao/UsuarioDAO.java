@@ -61,7 +61,7 @@ public class UsuarioDAO {
      * @return
      * @throws HibernateException 
      */
-    public Usuario getUserByEmail(String email) throws HibernateException {
+    public Usuario getUserByEmail(String email) {
         Usuario usuario = new Usuario();
         try {
             iniciaOperacion();

@@ -1,5 +1,5 @@
 package me.carlosaguilar.gepin.model;
-// Generated 31/03/2022 01:15:53 PM by Hibernate Tools 4.3.1
+// Generated 7/04/2022 05:11:37 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -16,6 +16,7 @@ public class CentroInvestigacion  implements java.io.Serializable {
      private String nombreDirector;
      private String telefono;
      private Set usuarios = new HashSet(0);
+     private Set relCentroInvGrupoAcs = new HashSet(0);
 
     public CentroInvestigacion() {
     }
@@ -25,12 +26,13 @@ public class CentroInvestigacion  implements java.io.Serializable {
         this.idCentroInvestigacion = idCentroInvestigacion;
         this.nombreCentroInvestigacion = nombreCentroInvestigacion;
     }
-    public CentroInvestigacion(int idCentroInvestigacion, String nombreCentroInvestigacion, String nombreDirector, String telefono, Set usuarios) {
+    public CentroInvestigacion(int idCentroInvestigacion, String nombreCentroInvestigacion, String nombreDirector, String telefono, Set usuarios, Set relCentroInvGrupoAcs) {
        this.idCentroInvestigacion = idCentroInvestigacion;
        this.nombreCentroInvestigacion = nombreCentroInvestigacion;
        this.nombreDirector = nombreDirector;
        this.telefono = telefono;
        this.usuarios = usuarios;
+       this.relCentroInvGrupoAcs = relCentroInvGrupoAcs;
     }
    
     public int getIdCentroInvestigacion() {
@@ -67,6 +69,13 @@ public class CentroInvestigacion  implements java.io.Serializable {
     
     public void setUsuarios(Set usuarios) {
         this.usuarios = usuarios;
+    }
+    public Set getRelCentroInvGrupoAcs() {
+        return this.relCentroInvGrupoAcs;
+    }
+    
+    public void setRelCentroInvGrupoAcs(Set relCentroInvGrupoAcs) {
+        this.relCentroInvGrupoAcs = relCentroInvGrupoAcs;
     }
 
 

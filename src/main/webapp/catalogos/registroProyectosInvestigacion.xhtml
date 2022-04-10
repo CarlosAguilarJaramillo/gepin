@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="#{layoutMB.template}"
+                >
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="idProyectoInvestigacion" value="#{registroProyectosInvestigacionMB.idProyectoInvestigacion}" />
+
+            <f:event type="preRenderView" listener="#{registroProyectosInvestigacionMB.postLoad()}"/>
+        </f:metadata>
+
+    </ui:define>
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="body">
+
+
+        <adm:breadcrumb title="#{empty registroProyectosInvestigacionMB.idProyectoInvestigacion? 'Nuevo' : 'Proyecto de Investigación '.concat(registroProyectosInvestigacionMB.idProyectoInvestigacion)}" link="/registroProyectosInvestigacion.do?idProyectoInvestigacion=#{registroProyectosInvestigacionMB.idProyectoInvestigacion}"/>
+
+        <h:form id="formCentro">
+
+            <b:growl id="growlMsg" globalOnly="true" placementFrom="top" placement-align="center"
+                     show-detail="true" show-summary="false" allowDismiss="true" animation-enter="animated bounceInDown" animation-exit="animated bounceOutDown"
+                     delay="7000" escape="true" />
+
+            <div class="ui-g ui-fluid">
+                <p:panel class="box box-primary" header="Proyectos de Investigación" toggleable="false" closable="false">
+
+                    <b:container fluid="true">
+                        <b:row>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton icon="fa fa-save" id="nuevoCentro" rendered="#{registroProyectosInvestigacionMB.isNew()}" action="#{registroProyectosInvestigacionMB.guardarProyectoInvestigacion()}"
+                                                 value="Guardar" styleClass="btn-primary" update="@form"/>
+                                <p:commandButton icon="fa fa-save" id="actualizaCentro" rendered="#{not registroProyectosInvestigacionMB.isNew()}" action="#{registroProyectosInvestigacionMB.actualizaProyectoInvestigacion()}"
+                                                 value="Actualizar" styleClass="btn-primary" update="@form"/>
+                                <p:spacer width="5"/>
+
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton value="Borrar" process="@this" rendered="#{registroProyectosInvestigacionMB.isNew()}"
+                                                 icon="fa fa-refresh" styleClass="btn-success"
+                                                 update="@form"  resetValues="true"/>
+                                <p:commandButton value="Eliminar" action="#{registroProyectosInvestigacionMB.remove}" rendered="#{not registroProyectosInvestigacionMB.isNew()}"
+                                                 icon="fa fa-trash" styleClass="btn-danger"
+                                                 update="@form" process="@this">
+                                    <p:confirm header="Atención" message="¿Está seguro de eliminar lel proyecto de investigación?" icon="ui-icon-danger"/>
+                                </p:commandButton>
+                                <p:spacer width="5"/>
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton value="Regresar" immediate="true"
+                                                 action="proyectosInvestigacion?faces-redirect=true"
+                                                 process="@this"
+                                                 icon="fa fa-reply"/>
+                            </b:column>
+                        </b:row>
+                        <br/>
+                        <b:row>
+                            <b:column largeScreen="12" mediumScreen="12" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="idProyectoInvestigacion"  value="#{registroProyectosInvestigacionMB.proyectosInvestigacion.idProyectoInvestigacion}" disabled="true" maxlength="50" size="50"/>
+                                    <p:outputLabel for="idProyectoInvestigacion" value="ID Proyecto"></p:outputLabel>
+                                    <p:message for="idProyectoInvestigacion"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                        </b:row>
+
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="tema" required="true" maxlength="120" requiredMessage="Campo requerido" placeholder="Ingresa el tema" value="#{registroProyectosInvestigacionMB.proyectosInvestigacion.temaProyecto}" />
+                                    <p:outputLabel for="tema" value="Tema"/>
+                                    <p:message for="tema"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material" >
+                                    <p:selectOneMenu id="idCentroInv" required="true" autoWidth="true" requiredMessage="Campo requerido" filter="true" filterMatchMode="contains" immediate="true" value="#{registroProyectosInvestigacionMB.idCentroInvestigacion}">
+                                        <p:ajax event="change" listener="#{registroProyectosInvestigacionMB.valueChangeCentroInvestigacion}" update="grouped growlMsg" process="@this" />
+                                        <f:selectItem itemLabel="Selecciona una opción" noSelectionOption="true"/>
+                                        <f:selectItems value="#{registroProyectosInvestigacionMB.itemsCentroInvestigacion}"  />
+                                        
+                                    </p:selectOneMenu>
+                                    <p:outputLabel for="idCentroInv" value="Centro de Investigación"/>
+                                    <p:message for="idCentroInv"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+
+
+
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                
+                                <div class="ui-material" >
+                                    <p:selectOneMenu id="grouped" required="true" requiredMessage="Seleccione una líea de investigación" value="#{registroProyectosInvestigacionMB.idLineaInvestigacion}" label="Lineas de investigación" 
+                                                          filter="true" filterMatchMode="contains" >
+                                    <f:selectItems value="#{registroProyectosInvestigacionMB.itemsLineasInvestigacion}"/>
+                                    <p:ajax event="change" listener="#{registroProyectosInvestigacionMB.valueChangeLineaInvestigacion}" update="growlMsg" process="@this" />
+                                </p:selectOneMenu>
+                                    <p:outputLabel for="grouped" value="Líneas de Investigación"/>
+                                    <p:message for="grouped"/>
+                                    <p:spacer width="5"/>
+                                <p:message for="grouped"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <h5>Para asignar un instructor a instructores al proyecto de investigación, debera colocar el investogador deseado en la columna de la derecha</h5>
+                            <hr style="margin-bottom: 0px;">
+                                <p:separator class="red"  style="background:#3c8dbc; width:50px;height:3px; margin-left: 0px; margin-top: 0px; " />
+                            </hr>
+                                <p:pickList id="listaDualInvestigadores" addAllLabel="Agregar todo"  addLabel="Agregar" removeLabel="Quitar" removeAllLabel="Quitar todo"  required="true" requiredMessage="Seleccione un investigador" value="#{registroProyectosInvestigacionMB.dualListInvestigadores}" var="inv" itemLabel="#{inv.nombreInvestigador} #{inv.apPaternoInvestigador} #{inv.apMaternoInvestigador}" itemValue="#{inv}" converter="entityConverter"
+                                            responsive="true" showSourceFilter="true" effect="fade" showTargetFilter="true" filterMatchMode="contains" >
+                                    <f:facet name="sourceCaption">Investigador (No asignado al proyecto)</f:facet>
+                                    <f:facet name="targetCaption">Investigador (Si asignado al proyecto)</f:facet>
+                            </p:pickList>
+                                <p:message for="listaDualInvestigadores"/>
+                            </b:column>
+
+
+                        </b:row>
+
+
+
+                        <p:spacer width="5"/>
+
+                    </b:container>
+
+                </p:panel>
+
+            </div>
+
+
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Si" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+
+        </h:form>
+
+        <adm:ripple />
+        <h:outputScript library="js" name="admintemplate.js" target="head"/>
+    </ui:define>
+
+</ui:composition>

@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
-
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
     <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5433/db_gepin</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://192.168.0.188:5432/db_gepin</property>
     <property name="hibernate.connection.username">user_gepin</property>
     <property name="hibernate.connection.password">3c^$Yv7fspki%Y</property>
     <!-- Mapping files will go here.... -->
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.show_sql">true</property>
-    <mapping resource="me/carlosaguilar/gepin/model/Perfil.hbm.xml"/>
-    <mapping resource="me/carlosaguilar/gepin/model/Usuario.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/RelInvestigadorLineaGrupo.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/RelCentroInvGrupoAc.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/RelGrupoAcLineaInv.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/GrupoAcademico.hbm.xml"/>
     <mapping resource="me/carlosaguilar/gepin/model/CentroInvestigacion.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/RelProyectoLinea.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/Usuario.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/Tesista.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/RelAreaInteresInvestigador.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/LineaInvestigacion.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/RelProyectoInvestigador.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/Perfil.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/Investigador.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/AreaInteres.hbm.xml"/>
+    <mapping resource="me/carlosaguilar/gepin/model/ProyectosInvestigacion.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

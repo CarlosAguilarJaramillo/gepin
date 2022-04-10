@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="#{layoutMB.template}"
+                >
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="idInvestigador" value="#{registroInvestigadorMB.idInvestigador}" />
+
+            <f:event type="preRenderView" listener="#{registroInvestigadorMB.postLoad()}"/>
+        </f:metadata>
+
+    </ui:define>
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="body">
+
+
+        <adm:breadcrumb title="#{empty registroInvestigadorMB.idInvestigador? 'Nuevo' : 'Investigador '.concat(registroInvestigadorMB.idInvestigador)}" link="/registroInvestigador.do?idInvestigador=#{registroInvestigadorMB.idInvestigador}"/>
+
+        <h:form id="formCentro">
+
+            <b:growl id="growlMsg" globalOnly="true" placementFrom="top" placement-align="center"
+                     show-detail="true" show-summary="false" allowDismiss="true" animation-enter="animated bounceInDown" animation-exit="animated bounceOutDown"
+                     delay="7000" escape="true" />
+
+            <div class="ui-g ui-fluid">
+                <p:panel class="box box-primary" header="Línea de Investigación" toggleable="false" closable="false">
+
+                    <b:container fluid="true">
+                        <b:row>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton icon="fa fa-save" id="nuevoCentro" rendered="#{registroInvestigadorMB.isNew()}" action="#{registroInvestigadorMB.guardarInvestigador()}"
+                                                 value="Guardar" styleClass="btn-primary" update="@form"/>
+                                <p:commandButton icon="fa fa-save" id="actualizaCentro" rendered="#{not registroInvestigadorMB.isNew()}" action="#{registroInvestigadorMB.actualizaInvestigador()}"
+                                                 value="Actualizar" styleClass="btn-primary" update="@form"/>
+                                <p:spacer width="5"/>
+
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton value="Borrar" process="@this" rendered="#{registroInvestigadorMB.isNew()}"
+                                                 icon="fa fa-refresh" styleClass="btn-success"
+                                                 update="@form"  resetValues="true"/>
+                                <p:commandButton value="Eliminar" action="#{registroInvestigadorMB.remove}" rendered="#{not registroInvestigadorMB.isNew()}"
+                                                 icon="fa fa-trash" styleClass="btn-danger"
+                                                 update="@form" process="@this">
+                                    <p:confirm header="Atención" message="¿Está seguro de eliminar el investigador?" icon="ui-icon-danger"/>
+                                </p:commandButton>
+                                <p:spacer width="5"/>
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton value="Regresar" immediate="true"
+                                                 action="investigador?faces-redirect=true"
+                                                 process="@this"
+                                                 icon="fa fa-reply"/>
+                            </b:column>
+                        </b:row>
+                        <br/>
+                        <b:row>
+                            <b:column largeScreen="12" mediumScreen="12" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="idInvestigador"  value="#{registroInvestigadorMB.investigador.idInvestigador}" disabled="true" maxlength="50" size="50"/>
+                                    <p:outputLabel for="idInvestigador" value="ID Investigador"></p:outputLabel>
+                                    <p:message for="idInvestigador"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                        </b:row>
+
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="nombre" required="true" maxlength="120" requiredMessage="Campo requerido" placeholder="Ingresa el nombre del investigador" value="#{registroInvestigadorMB.investigador.nombreInvestigador}" />
+                                    <p:outputLabel for="nombre" value="Nombre"/>
+                                    <p:message for="nombre"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="apellidoPat" required="true" maxlength="120" requiredMessage="Campo requerido" placeholder="Ingresa el apellido paterno del investigador" value="#{registroInvestigadorMB.investigador.apPaternoInvestigador}" />
+                                    <p:outputLabel for="apellidoPat" value="Apellido Paterno"/>
+                                    <p:message for="apellidoPat"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="apellidoMat" required="true" maxlength="120" requiredMessage="Campo requerido" placeholder="Ingresa el apellido materno del investigador" value="#{registroInvestigadorMB.investigador.apMaternoInvestigador}" />
+                                    <p:outputLabel for="apellidoMat" value="Apellido Materno"/>
+                                    <p:message for="apellidoMat"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="grado" required="true" maxlength="120" requiredMessage="Campo requerido" placeholder="Ingresa el grado académico del investigador" value="#{registroInvestigadorMB.investigador.gradoAcademico}" />
+                                    <p:outputLabel for="grado" value="Grado Académico"/>
+                                    <p:message for="grado"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="esp" required="true" maxlength="120" requiredMessage="Campo requerido" placeholder="Ingresa la especialidad del investigador" value="#{registroInvestigadorMB.investigador.especialidad}" />
+                                    <p:outputLabel for="esp" value="Especialidad"/>
+                                    <p:message for="esp"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+
+                      
+                        <p:spacer width="5"/>
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material" >
+                                    <p:selectOneMenu id="idCentroInv" required="true" autoWidth="true" requiredMessage="Campo requerido" filter="true" filterMatchMode="contains" immediate="true" value="#{registroInvestigadorMB.idCentroInvestigacion}">
+                                        <p:ajax event="change" listener="#{registroInvestigadorMB.valueChangeCentroInvestigacion}" update="grouped growlMsg" process="@this" />
+                                        <f:selectItem itemLabel="Selecciona una opción" noSelectionOption="true"/>
+                                        <f:selectItems value="#{registroInvestigadorMB.itemsCentroInvestigacion}"  />
+                                        
+                                    </p:selectOneMenu>
+                                    <p:outputLabel for="idCentroInv" value="Centro de Investigación"/>
+                                    <p:message for="idCentroInv"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+
+
+
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <h5>Para asignar una línea de investigación al investigador, debera seleccionar las líneas de investigación deseadas</h5>
+                                <div class="ui-material" >
+                                    <p:selectCheckboxMenu id="grouped" required="true" requiredMessage="Seleccione al menos  una líea de investigación" value="#{registroInvestigadorMB.selectedLineas}" label="Lineas de investigación" 
+                                                      multiple="true" filter="true" filterMatchMode="contains" >
+                                    <f:selectItems value="#{registroInvestigadorMB.itemsLineasInvestigacion}"/>
+                                </p:selectCheckboxMenu>
+                                    <p:outputLabel for="grouped" value="Líneas de Investigación"/>
+                                    <p:message for="grouped"/>
+                                    <p:spacer width="5"/>
+                                <p:message for="grouped"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+
+
+
+                        <p:spacer width="5"/>
+
+                    </b:container>
+
+                </p:panel>
+
+            </div>
+
+
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Si" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+
+        </h:form>
+
+        <adm:ripple />
+        <h:outputScript library="js" name="admintemplate.js" target="head"/>
+    </ui:define>
+
+</ui:composition>

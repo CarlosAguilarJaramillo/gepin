@@ -3,6 +3,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
                 >
 
     <style type="text/css">
@@ -18,8 +19,8 @@
         
         <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <p:avatar id="userImage" style="border-radius: 50%" label="#{logonMB.usuario.nombre} #{logonMB.usuario.apellidoPaterno}" shape="circle" />  
-                 
+                
+                 <pe:letterAvatar id="userImage" style="border-radius: 50%" value="#{logonMB.usuario.nombre} #{logonMB.usuario.apellidoPaterno}" rounded="true" />
                 <span class="hidden-xs">#{logonMB.currentUser}</span>
                 <p:outputLabel value=" --"></p:outputLabel>
                 <span id="nombreCentroUsuarioSesion" class="hidden-xs">#{logonMB.usuario.centroInvestigacion.nombreCentroInvestigacion}</span>
@@ -28,7 +29,7 @@
                 <li class="user-header">
                     <div class="hidden-xs">
                         
-                        <p:avatar label="#{logonMB.usuario.nombre} #{logonMB.usuario.apellidoPaterno}" />  
+                        <pe:letterAvatar value="#{logonMB.usuario.nombre} #{logonMB.usuario.apellidoPaterno}" />  
                     </div>
                    
                     <p>

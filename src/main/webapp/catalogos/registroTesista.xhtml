@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="#{layoutMB.template}"
+                >
+
+    <ui:define name="metadata">
+        <f:metadata>
+            <f:viewParam name="idTesista" value="#{registroTesistaMB.idTesista}" />
+
+            <f:event type="preRenderView" listener="#{registroTesistaMB.postLoad()}"/>
+        </f:metadata>
+
+    </ui:define>
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="body">
+
+
+        <adm:breadcrumb title="#{empty registroTesistaMB.idTesista? 'Nuevo' : 'Tesista '.concat(registroTesistaMB.idTesista)}" link="/registroTesista.do?idTesista=#{registroTesistaMB.idTesista}"/>
+
+        <h:form id="formCentro">
+
+            <b:growl id="growlMsg" globalOnly="true" placementFrom="top" placement-align="center"
+                     show-detail="true" show-summary="false" allowDismiss="true" animation-enter="animated bounceInDown" animation-exit="animated bounceOutDown"
+                     delay="7000" escape="true" />
+
+            <div class="ui-g ui-fluid">
+                <p:panel class="box box-primary" header="Registro de Tesistas" toggleable="false" closable="false">
+
+                    <b:container fluid="true">
+                        <b:row>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton icon="fa fa-save" id="nuevoCentro" rendered="#{registroTesistaMB.isNew()}" action="#{registroTesistaMB.guardarTesista()}"
+                                                 value="Guardar" styleClass="btn-primary" update="@form"/>
+                                <p:commandButton icon="fa fa-save" id="actualizaCentro" rendered="#{not registroTesistaMB.isNew()}" action="#{registroTesistaMB.actualizaTesista()}"
+                                                 value="Actualizar" styleClass="btn-primary" update="@form"/>
+                                <p:spacer width="5"/>
+
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton value="Borrar" process="@this" rendered="#{registroTesistaMB.isNew()}"
+                                                 icon="fa fa-refresh" styleClass="btn-success"
+                                                 update="@form"  resetValues="true"/>
+                                <p:commandButton value="Eliminar" action="#{registroTesistaMB.remove}" rendered="#{not registroTesistaMB.isNew()}"
+                                                 icon="fa fa-trash" styleClass="btn-danger"
+                                                 update="@form" process="@this">
+                                    <p:confirm header="Atención" message="¿Está seguro de eliminar tesista?" icon="ui-icon-danger"/>
+                                </p:commandButton>
+                                <p:spacer width="5"/>
+                            </b:column>
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12"  >
+                                <p:commandButton value="Regresar" immediate="true"
+                                                 action="tesista?faces-redirect=true"
+                                                 process="@this"
+                                                 icon="fa fa-reply"/>
+                            </b:column>
+                        </b:row>
+                        <br/>
+                        <b:row>
+                            <b:column largeScreen="12" mediumScreen="12" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="idTesista"  value="#{registroTesistaMB.tesista.idTesista}" disabled="true" maxlength="50" size="50"/>
+                                    <p:outputLabel for="idTesista" value="ID Tesista"></p:outputLabel>
+                                    <p:message for="idTesista"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+                        </b:row>
+
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="nombre" required="true" maxlength="120" requiredMessage="Campo requerido" placeholder="Ingresa el nombre" value="#{registroTesistaMB.tesista.nombre}" />
+                                    <p:outputLabel for="nombre" value="Nombre"/>
+                                    <p:message for="nombre"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+                        
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="apPaterno" required="true" maxlength="120" requiredMessage="Campo requerido" placeholder="Ingresa el apellido paterno" value="#{registroTesistaMB.tesista.apellidoPaterno}" />
+                                    <p:outputLabel for="apPaterno" value="Apellido Paterno"/>
+                                    <p:message for="apPaterno"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+                        
+                         <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material">
+                                    <p:inputText id="apMaterno" required="true" maxlength="120" requiredMessage="Campo requerido" placeholder="Ingresa el apellido materno" value="#{registroTesistaMB.tesista.apellidoMaterno}" />
+                                    <p:outputLabel for="apMaterno" value="Apellido Materno"/>
+                                    <p:message for="apMaterno"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+                        
+                        
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material" >
+                                    <p:selectOneMenu id="idProyecto" required="true" autoWidth="true" requiredMessage="Campo requerido" filter="true" filterMatchMode="contains" immediate="true" value="#{registroTesistaMB.idProyectoInvestigacion}">
+                                        <p:ajax event="change" listener="#{registroTesistaMB.valueChangeProyecto}" update="growlMsg" process="@this" />
+                                        <f:selectItem itemLabel="Selecciona una opción" noSelectionOption="true"/>
+                                        <f:selectItems value="#{registroTesistaMB.itemsProyectosInvestigacion}"  />
+                                        
+                                    </p:selectOneMenu>
+                                    <p:outputLabel for="idProyecto" value="Proyecto de Investigación Elegido"/>
+                                    <p:message for="idProyecto"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+                        
+                        
+                        <b:row>
+
+                            <b:column largeScreen="4" mediumScreen="4" smallScreen="12" tinyScreen="12">
+                                <div class="ui-material" >
+                                    <p:selectOneMenu id="idInv" required="true" autoWidth="true" requiredMessage="Campo requerido" filter="true" filterMatchMode="contains" immediate="true" value="#{registroTesistaMB.idInvestigador}">
+                                        <p:ajax event="change" listener="#{registroTesistaMB.valueChangeInvestigador}" update="growlMsg" process="@this" />
+                                        <f:selectItem itemLabel="Selecciona una opción" noSelectionOption="true"/>
+                                        <f:selectItems value="#{registroTesistaMB.itemsInvestigadores}"  />
+                                        
+                                    </p:selectOneMenu>
+                                    <p:outputLabel for="idInv" value="Director de Tesis"/>
+                                    <p:message for="idInv"/>
+                                    <p:spacer width="5"/>
+                                </div>
+                            </b:column>
+
+
+                        </b:row>
+
+
+
+                        
+                        
+
+
+
+                        <p:spacer width="5"/>
+
+                    </b:container>
+
+                </p:panel>
+
+            </div>
+
+
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Si" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+
+        </h:form>
+
+        <adm:ripple />
+        <h:outputScript library="js" name="admintemplate.js" target="head"/>
+    </ui:define>
+
+</ui:composition>

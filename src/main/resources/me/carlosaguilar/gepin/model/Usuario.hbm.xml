@@ -1,36 +1,37 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 31/03/2022 01:15:54 PM by Hibernate Tools 4.3.1 -->
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 7/04/2022 05:11:37 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-  <class name="me.carlosaguilar.gepin.model.Usuario" optimistic-lock="version" schema="db_gepin" table="usuario">
-    <comment>Usuario</comment>
-    <id name="idUsuario" type="string">
-      <column length="150" name="id_usuario"/>
-      <generator class="assigned"/>
-    </id>
-    <many-to-one class="me.carlosaguilar.gepin.model.CentroInvestigacion" fetch="select" name="centroInvestigacion">
-      <column name="id_centro_investigacion" not-null="true"/>
-    </many-to-one>
-    <many-to-one class="me.carlosaguilar.gepin.model.Perfil" fetch="select" name="perfil">
-      <column name="id_perfil" not-null="true"/>
-    </many-to-one>
-    <property name="password" type="string">
-      <column length="150" name="password" not-null="true"/>
-    </property>
-    <property name="fechaAlta" type="timestamp">
-      <column length="29" name="fecha_alta" not-null="true"/>
-    </property>
-    <property name="nombre" type="string">
-      <column length="50" name="nombre" not-null="true"/>
-    </property>
-    <property name="apellidoPaterno" type="string">
-      <column length="50" name="apellido_paterno" not-null="true"/>
-    </property>
-    <property name="apellidoMaterno" type="string">
-      <column length="50" name="apellido_materno" not-null="true"/>
-    </property>
-    <property name="idEstatus" type="int">
-      <column name="id_estatus" not-null="true"/>
-    </property>
-  </class>
+    <class name="me.carlosaguilar.gepin.model.Usuario" table="usuario" schema="db_gepin" optimistic-lock="version">
+        <comment>Usuario</comment>
+        <id name="idUsuario" type="string">
+            <column name="id_usuario" length="150" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="centroInvestigacion" class="me.carlosaguilar.gepin.model.CentroInvestigacion" fetch="select">
+            <column name="id_centro_investigacion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="perfil" class="me.carlosaguilar.gepin.model.Perfil" fetch="select">
+            <column name="id_perfil" not-null="true" />
+        </many-to-one>
+        <property name="password" type="string">
+            <column name="password" length="150" not-null="true" />
+        </property>
+        <property name="fechaAlta" type="timestamp">
+            <column name="fecha_alta" length="29" not-null="true" />
+        </property>
+        <property name="nombre" type="string">
+            <column name="nombre" length="50" not-null="true" />
+        </property>
+        <property name="apellidoPaterno" type="string">
+            <column name="apellido_paterno" length="50" not-null="true" />
+        </property>
+        <property name="apellidoMaterno" type="string">
+            <column name="apellido_materno" length="50" not-null="true" />
+        </property>
+        <property name="idEstatus" type="int">
+            <column name="id_estatus" not-null="true" />
+        </property>
+    </class>
 </hibernate-mapping>

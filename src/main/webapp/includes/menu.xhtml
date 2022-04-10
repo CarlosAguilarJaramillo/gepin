@@ -15,18 +15,7 @@
             </p:link>
             
         </li>
-        <li class="treeview">
-            <h:panelGroup rendered="#{externalContext.isUserInRole('ROLE_ADMIN_GRAL') }">
-                <a href="#" >
-                    <i class="fa fa-th-list"></i>
-                    <span>Catálogos</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-            </h:panelGroup>
-            <ul class="treeview-menu">
-                <li>
+        <li>
                     <p:link outcome="/catalogos/usuarios" rendered="#{externalContext.isUserInRole('ROLE_ADMIN_GRAL') }">
                         <i class="fa fa-user" ></i>
                         <span>Usuarios</span>
@@ -38,9 +27,38 @@
                         <span>Centros de Investigación</span>
                     </p:link>
                 </li>
-                 
-            </ul>
-        </li>
+                <li>
+                    <p:link outcome="/catalogos/grupoAcademico" rendered="#{externalContext.isUserInRole('ROLE_ADMIN_GRAL') }">
+                        <i class="fa fa-graduation-cap" ></i>
+                        <span>Grupos Académicos</span>
+                    </p:link>
+                </li>
+                <li>
+                    <p:link outcome="/catalogos/lineaInvestigacion" rendered="#{externalContext.isUserInRole('ROLE_ADMIN_GRAL') }">
+                        <i class="fa fa-book" ></i>
+                        <span>Líneas de Investigación</span>
+                    </p:link>
+                </li>
+                <li>
+                    <p:link outcome="/catalogos/investigador" rendered="#{externalContext.isUserInRole('ROLE_ADMIN_GRAL') }">
+                        <i class="fa fa-user-circle" ></i>
+                        <span>Investigadores</span>
+                    </p:link>
+                </li>
+                 <li>
+                    <p:link outcome="/catalogos/proyectosInvestigacion" rendered="#{externalContext.isUserInRole('ROLE_ADMIN_GRAL') }">
+                        <i class="fa fa-calendar-o" ></i>
+                        <span>Proyectos</span>
+                    </p:link>
+                </li>
+                
+                <li>
+                    <p:link outcome="/catalogos/tesista" rendered="#{externalContext.isUserInRole('ROLE_ADMIN_GRAL') }">
+                        <i class="fa fa-user-plus" ></i>
+                        <span>Registro Tesistas</span>
+                    </p:link>
+                </li>
+        
         
    
         

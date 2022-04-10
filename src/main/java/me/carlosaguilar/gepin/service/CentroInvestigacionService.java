@@ -17,9 +17,11 @@ package me.carlosaguilar.gepin.service;
 
 import com.github.adminfaces.template.exception.BusinessException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
 import javax.transaction.SystemException;
 import me.carlosaguilar.gepin.dao.CentroInvestigacionDAO;
 import me.carlosaguilar.gepin.model.CentroInvestigacion;
@@ -90,7 +92,7 @@ public class CentroInvestigacionService implements Serializable {
         try {
             centroInvestigacionDAO = new CentroInvestigacionDAO();
           
-                centroInvestigacionDAO.updateUser(centroInvestigacion);
+                centroInvestigacionDAO.updateCentroInvestigacion(centroInvestigacion);
             
 
         } catch (HibernateException ex) {
@@ -112,6 +114,26 @@ public class CentroInvestigacionService implements Serializable {
         } catch (HibernateException ex) {
             throw new SystemException("Error al obtener el centro de investigación ");
         }
+    }
+    
+     /**
+     * Metodo que invoca al DAO y permite obtener la lista de todos los grupos academicos
+     * @return
+     * @throws SystemException 
+     */
+    public List<SelectItem> getItemsAllCentrosInvestigacion() throws SystemException {
+        try {
+            centroInvestigacionDAO = new CentroInvestigacionDAO();
+            List<CentroInvestigacion> listCentroInvestigacions = centroInvestigacionDAO.getAllCentroInvestigacion();
+            List<SelectItem> listItems = new ArrayList<>();
+            listCentroInvestigacions.forEach((ce) -> {
+                listItems.add(new SelectItem(ce.getIdCentroInvestigacion(), ce.getNombreCentroInvestigacion()));
+            });
+            return listItems;
+        } catch (HibernateException ex) {
+            throw new SystemException("Error al obtener los centros de investigación");
+        }
+        
     }
 
 }

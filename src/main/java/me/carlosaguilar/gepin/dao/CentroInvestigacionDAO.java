@@ -137,7 +137,7 @@ public class CentroInvestigacionDAO {
      * @param centroInvestigacion 
      * @throws HibernateException 
      */
-    public void updateUser(CentroInvestigacion centroInvestigacion) throws HibernateException {
+    public void updateCentroInvestigacion(CentroInvestigacion centroInvestigacion) throws HibernateException {
         try {
             iniciaOperacion();
             sesion.update(centroInvestigacion);

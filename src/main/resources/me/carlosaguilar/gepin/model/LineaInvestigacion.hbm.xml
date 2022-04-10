@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 7/04/2022 05:11:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="me.carlosaguilar.gepin.model.LineaInvestigacion" table="linea_investigacion" schema="db_gepin" optimistic-lock="version">
+        <id name="idLineaInvestigacion" type="int">
+            <column name="id_linea_investigacion" />
+            <generator class="identity" />
+        </id>
+        <property name="lineaInvestigacion" type="string">
+            <column name="linea_investigacion" length="150" not-null="true" />
+        </property>
+        <set name="relGrupoAcLineaInvs" table="rel_grupo_ac_linea_inv" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_linea_investigacion" not-null="true" />
+            </key>
+            <one-to-many class="me.carlosaguilar.gepin.model.RelGrupoAcLineaInv" />
+        </set>
+        <set name="relInvestigadorLineaGrupos" table="rel_investigador_linea_grupo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_linea_investigacion" not-null="true" />
+            </key>
+            <one-to-many class="me.carlosaguilar.gepin.model.RelInvestigadorLineaGrupo" />
+        </set>
+        <set name="proyectosInvestigacions" table="proyectos_investigacion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_linea_investigacion" />
+            </key>
+            <one-to-many class="me.carlosaguilar.gepin.model.ProyectosInvestigacion" />
+        </set>
+    </class>
+</hibernate-mapping>

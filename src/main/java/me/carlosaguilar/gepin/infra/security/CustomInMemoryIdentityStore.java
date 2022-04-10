@@ -1,4 +1,4 @@
-package mx.gob.edomex.icati.siicati.infra.security;
+package me.carlosaguilar.gepin.infra.security;
 
 import com.github.adminfaces.template.exception.BusinessException;
 import javax.enterprise.context.ApplicationScoped;

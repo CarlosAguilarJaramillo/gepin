@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 7/04/2022 05:11:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="me.carlosaguilar.gepin.model.GrupoAcademico" table="grupo_academico" schema="db_gepin" optimistic-lock="version">
+        <id name="idGrupoAcademico" type="int">
+            <column name="id_grupo_academico" />
+            <generator class="identity" />
+        </id>
+        <property name="grupoAcademico" type="string">
+            <column name="grupo_academico" length="150" not-null="true" />
+        </property>
+        <set name="relGrupoAcLineaInvs" table="rel_grupo_ac_linea_inv" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_grupo_academico" not-null="true" />
+            </key>
+            <one-to-many class="me.carlosaguilar.gepin.model.RelGrupoAcLineaInv" />
+        </set>
+        <set name="relCentroInvGrupoAcs" table="rel_centro_inv_grupo_ac" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_grupo_academico" not-null="true" />
+            </key>
+            <one-to-many class="me.carlosaguilar.gepin.model.RelCentroInvGrupoAc" />
+        </set>
+    </class>
+</hibernate-mapping>

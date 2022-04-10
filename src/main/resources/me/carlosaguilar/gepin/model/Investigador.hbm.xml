@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 7/04/2022 05:11:37 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="me.carlosaguilar.gepin.model.Investigador" table="investigador" schema="db_gepin" optimistic-lock="version">
+        <id name="idInvestigador" type="int">
+            <column name="id_investigador" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreInvestigador" type="string">
+            <column name="nombre_investigador" length="100" not-null="true" />
+        </property>
+        <property name="apPaternoInvestigador" type="string">
+            <column name="ap_paterno_investigador" length="100" not-null="true" />
+        </property>
+        <property name="apMaternoInvestigador" type="string">
+            <column name="ap_materno_investigador" length="100" />
+        </property>
+        <property name="gradoAcademico" type="string">
+            <column name="grado_academico" length="100" not-null="true" />
+        </property>
+        <property name="especialidad" type="string">
+            <column name="especialidad" length="100" not-null="true" />
+        </property>
+        <set name="relInvestigadorLineaGrupos" table="rel_investigador_linea_grupo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_investigador" not-null="true" />
+            </key>
+            <one-to-many class="me.carlosaguilar.gepin.model.RelInvestigadorLineaGrupo" />
+        </set>
+        <set name="relProyectoInvestigadors" table="rel_proyecto_investigador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_investigador" />
+            </key>
+            <one-to-many class="me.carlosaguilar.gepin.model.RelProyectoInvestigador" />
+        </set>
+        <set name="relAreaInteresInvestigadors" table="rel_area_interes_investigador" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_investigador" not-null="true" />
+            </key>
+            <one-to-many class="me.carlosaguilar.gepin.model.RelAreaInteresInvestigador" />
+        </set>
+        <set name="tesistas" table="tesista" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_investigador" not-null="true" />
+            </key>
+            <one-to-many class="me.carlosaguilar.gepin.model.Tesista" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -14,10 +14,21 @@
             <web-resource-name>ROLE_ADMIN_GRAL</web-resource-name>
             <url-pattern>/index.do</url-pattern>
            
-            <url-pattern>/catalogos/usuarios.do</url-pattern>
-             <url-pattern>/catalogos/registroUsuarios.do</url-pattern>
-             <url-pattern>/catalogos/centroInvestigacion.do</url-pattern>
+            <url-pattern>/catalogos/centroInvestigacion.do</url-pattern>
+             <url-pattern>/catalogos/grupoAcademico.do</url-pattern>
+             <url-pattern>/catalogos/investigador.do</url-pattern>
+             <url-pattern>/catalogos/lineaInvestigacion.do</url-pattern>
+             <url-pattern>/catalogos/proyectosInvestigacion.do</url-pattern>
              <url-pattern>/catalogos/registroCentroInvestigacion.do</url-pattern>
+             <url-pattern>/catalogos/registroGrupoAcademico.do</url-pattern>
+             <url-pattern>/catalogos/registroInvestigador.do</url-pattern>
+             <url-pattern>/catalogos/registroLineaInvestigacion.do</url-pattern>
+             <url-pattern>/catalogos/registroProyectosInvestigacion.do</url-pattern>
+             <url-pattern>/catalogos/registroTesista.do</url-pattern>
+             <url-pattern>/catalogosregistroUsuarios.do</url-pattern>
+             <url-pattern>/catalogos/tesista.do</url-pattern>
+             <url-pattern>/catalogos/usuarios.do</url-pattern>
+             
            
             
         </web-resource-collection>
@@ -47,6 +58,10 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Production</param-value>
     </context-param>
+    <context-param>
+    <param-name>primefaces.SUBMIT</param-name>
+    <param-value>partial</param-value>
+</context-param>
     <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>admin</param-value>

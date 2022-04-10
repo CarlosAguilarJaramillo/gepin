@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="#{layoutMB.template}"
+                >
+
+    <ui:define name="metadata">
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+
+            .ui-button-text-only .ui-button-text {
+                padding: 0.3em 0.4em;
+            }
+
+            .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+                visibility: hidden;
+            }
+
+            .ui-filter-column .ui-column-customfilter .custom-filter {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .year-spinner input {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+
+
+            /* below css hides growls in small screens and makes messages visible */
+
+
+            @media only screen and (min-width: 880px) {
+                #botonslip {
+                    display: none;
+                }
+            }
+
+            @media only screen and (max-width: 880px) {
+
+                #botons {
+                    display: none;
+                }
+            }
+
+
+
+
+        </style>
+        <ui:param name="renderFormAsterisks" value="true"/>
+
+    </ui:define>
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="body">
+
+        <adm:breadcrumb title="Proyectos de Investigación" />
+        <h:form id="growls">
+            <b:growl id="growlMsg" globalOnly="true" placementFrom="top" placement-align="center"
+                     show-detail="true" show-summary="false" allowDismiss="true" animation-enter="animated bounceInDown" animation-exit="animated bounceOutDown"
+                     delay="7000" escape="true" />
+        </h:form>
+        <h:form id="formGrupos">
+            <p:panel class="box box-primary" header="Proyectos de Investigación" toggleable="false" closable="false">
+                <b:container fluid="true">
+                    <div id="botons">
+                        <b:row>
+                            <b:column tinyScreen="12" mediumScreen="12" largeScreen="12" smallScreen="12">
+                                <p:commandButton icon="fa fa-plus" id="nuevoGrupo"
+                                                 value="Nuevo" styleClass="btn-primary" action="registroProyectosInvestigacion?faces-redirect=true"/>
+                                <p:spacer width="5"/>
+
+
+
+
+                            </b:column>
+                        </b:row>
+                    </div>
+                    <!-- -->
+                    <div id="botonslip">
+                        <b:row>
+
+                            <p:splitButton id = "basic" value = "Nuevo"  update = "messages"  icon="fa fa-plus" styleClass="btn-primary" action="registroProyectosInvestigacion?faces-redirect=true">
+
+
+
+
+                            </p:splitButton>
+                            <br/>
+                        </b:row>
+                    </div>
+                    <!-- -->
+                    <br/>
+                    <b:row>
+                        <b:column largeScreen="12" mediumScreen="12" smallScreen="12" tinyScreen="12">
+                            <p:dataTable  value="#{proyectoInvestigacionMB.listaProyectosInvestigacions}" widgetVar="tablaProy" var="proyecto" reflow="true" id="tablaProyectos"
+                                          emptyMessage="No hay Proyectos de Investigación registrados" paginator="true" rows="20" 
+                                          initMode="load" 
+                                          rowKey="#{proyecto.idProyectoInvestigacion}">
+
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Buscar:"/>
+                                        <p:inputText id="globalFilter" onkeyup="PF('tablaProy').filter()" style="width:170px" placeholder="Ingresa palabra clave" />
+                                    </p:outputPanel>
+                                </f:facet>
+
+
+
+                                <p:column width="150" filterBy="#{proyecto.idProyectoInvestigacion}" headerText="ID" filterMatchMode="contains">
+                                    <h:outputText value="#{proyecto.idProyectoInvestigacion}" />
+                                </p:column>
+                                <p:column width="100" filterBy="#{proyecto.temaProyecto}" headerText="Proyecto"  filterMatchMode="contains">
+                                    <h:outputText value="#{proyecto.temaProyecto}" />
+                                </p:column>
+                               
+                                
+                                
+
+                                <p:column width="100" headerText="Opciones" style="text-align: center;">
+
+                                    <p:splitButton id = "options" value = "Editar"  update = "messages"  icon="fa fa-plus" styleClass="btn-primary" action="#{proyectoInvestigacionMB.editOutcome()}">
+
+
+
+                                        <p:menuitem value = "Eliminar" 
+                                                    actionListener="#{proyectoInvestigacionMB.eliminaProyectoInvestigacion(proyecto)}" 
+
+                                                    process="@this" update="formGrupos:tablaProyectos :growls"
+
+                                                    icon="pi pi-times" >
+                                            <p:confirm header="Atención" message="¿Está seguro de eliminar el proyecto?" icon="ui-icon-danger"/>
+                                            <f:param name="idInvestigador" value="#{proyecto.idProyectoInvestigacion}"/>   
+                                        </p:menuitem>
+
+                                      
+
+
+                                        <f:param name="idProyectoInvestigacion" value="#{proyecto.idProyectoInvestigacion}"/>   
+                                    </p:splitButton>
+                                </p:column>
+
+                            </p:dataTable>
+                        </b:column>
+                    </b:row>
+                </b:container>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Si" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+
+
+            
+
+
+
+
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

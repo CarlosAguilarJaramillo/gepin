@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:adm="http://github.com/adminfaces"
+                xmlns:b="http://bootsfaces.net/ui"
+                template="#{layoutMB.template}"
+                >
+
+    <ui:define name="metadata">
+
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
+
+            .ui-button-text-only .ui-button-text {
+                padding: 0.3em 0.4em;
+            }
+
+            .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+                visibility: hidden;
+            }
+
+            .ui-filter-column .ui-column-customfilter .custom-filter {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .year-spinner input {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+
+
+            /* below css hides growls in small screens and makes messages visible */
+
+
+            @media only screen and (min-width: 880px) {
+                #botonslip {
+                    display: none;
+                }
+            }
+
+            @media only screen and (max-width: 880px) {
+
+                #botons {
+                    display: none;
+                }
+            }
+
+
+
+
+        </style>
+        <ui:param name="renderFormAsterisks" value="true"/>
+
+    </ui:define>
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="body">
+
+        <adm:breadcrumb title="Registro de Tesistas" />
+        <h:form id="growls">
+            <b:growl id="growlMsg" globalOnly="true" placementFrom="top" placement-align="center"
+                     show-detail="true" show-summary="false" allowDismiss="true" animation-enter="animated bounceInDown" animation-exit="animated bounceOutDown"
+                     delay="7000" escape="true" />
+        </h:form>
+        <h:form id="formGrupos">
+            <p:panel class="box box-primary" header="Registro de Tesistas" toggleable="false" closable="false">
+                <b:container fluid="true">
+                    <div id="botons">
+                        <b:row>
+                            <b:column tinyScreen="12" mediumScreen="12" largeScreen="12" smallScreen="12">
+                                <p:commandButton icon="fa fa-plus" id="nuevoGrupo"
+                                                 value="Nuevo" styleClass="btn-primary" action="registroTesista?faces-redirect=true"/>
+                                <p:spacer width="5"/>
+
+
+
+
+                            </b:column>
+                        </b:row>
+                    </div>
+                    <!-- -->
+                    <div id="botonslip">
+                        <b:row>
+
+                            <p:splitButton id = "basic" value = "Nuevo"  update = "messages"  icon="fa fa-plus" styleClass="btn-primary" action="registroTesista?faces-redirect=true">
+
+
+
+
+                            </p:splitButton>
+                            <br/>
+                        </b:row>
+                    </div>
+                    <!-- -->
+                    <br/>
+                    <b:row>
+                        <b:column largeScreen="12" mediumScreen="12" smallScreen="12" tinyScreen="12">
+                            <p:dataTable  value="#{tesistaMB.listaTesistas}" widgetVar="tablaTes" var="tesista" reflow="true" id="tablaTesistas"
+                                          emptyMessage="No hay tesistas registrados" paginator="true" rows="20" 
+                                          initMode="load" 
+                                          rowKey="#{tesista.idTesista}">
+
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Buscar:"/>
+                                        <p:inputText id="globalFilter" onkeyup="PF('tablaTes').filter()" style="width:170px" placeholder="Ingresa palabra clave" />
+                                    </p:outputPanel>
+                                </f:facet>
+
+
+
+                                <p:column width="150" filterBy="#{tesista.idTesista}" headerText="ID" filterMatchMode="contains">
+                                    <h:outputText value="#{tesista.idTesista}" />
+                                </p:column>
+                                <p:column width="100" filterBy="#{tesista.nombre}" headerText="Nombre"  filterMatchMode="contains">
+                                    <h:outputText value="#{tesista.nombre}" />
+                                </p:column>
+                                <p:column width="100" filterBy="#{tesista.apellidoPaterno}" headerText="Apellido Paterno"  filterMatchMode="contains">
+                                    <h:outputText value="#{tesista.apellidoPaterno}" />
+                                </p:column>
+                                <p:column width="100" filterBy="#{tesista.apellidoMaterno}" headerText="Apellido Materno"  filterMatchMode="contains">
+                                    <h:outputText value="#{tesista.apellidoMaterno}" />
+                                </p:column>
+                               
+                                
+                                
+
+                                <p:column width="100" headerText="Opciones" style="text-align: center;">
+
+                                    <p:splitButton id = "options" value = "Editar"  update = "messages"  icon="fa fa-plus" styleClass="btn-primary" action="#{tesistaMB.editOutcome()}">
+
+
+
+                                        <p:menuitem value = "Eliminar" 
+                                                    actionListener="#{tesistaMB.eliminaTesista(tesista)}" 
+
+                                                    process="@this" update="formGrupos:tablaTesistas :growls"
+
+                                                    icon="pi pi-times" >
+                                            <p:confirm header="Atención" message="¿Está seguro de eliminar el tesista?" icon="ui-icon-danger"/>
+                                            <f:param name="idTesista" value="#{tesista.idTesista}"/>   
+                                        </p:menuitem>
+
+                                      
+
+
+                                        <f:param name="idTesista" value="#{tesista.idTesista}"/>   
+                                    </p:splitButton>
+                                </p:column>
+
+                            </p:dataTable>
+                        </b:column>
+                    </b:row>
+                </b:container>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" styleClass="box-danger box-solid">
+                <p:commandButton value="Si" type="button" styleClass="btn-material btn-primary ui-confirmdialog-yes"
+                                 icon="fa fa-check"/>
+                <p:commandButton value="No" type="button" styleClass="btn-material btn-danger ui-confirmdialog-no"
+                                 icon="fa fa-close"/>
+            </p:confirmDialog>
+
+
+            
+
+
+
+
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

@@ -1,5 +1,5 @@
 package me.carlosaguilar.gepin.model;
-// Generated 31/03/2022 01:15:53 PM by Hibernate Tools 4.3.1
+// Generated 7/04/2022 05:11:37 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
